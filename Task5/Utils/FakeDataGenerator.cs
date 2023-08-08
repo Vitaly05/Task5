@@ -6,7 +6,7 @@ namespace Task5.Utils
 {
     public class FakeDataGenerator
     {
-        private readonly int seed;
+        private readonly GeneratorConfigurationModel configuration;
 
         private readonly Locale locale;
 
@@ -14,16 +14,16 @@ namespace Task5.Utils
 
         public FakeDataGenerator(GeneratorConfigurationModel generatorConfigurationModel)
         {
-            seed = generatorConfigurationModel.Seed;
-            locale = Locale.GetLocale(generatorConfigurationModel.Locale);
+            configuration = generatorConfigurationModel;
+            locale = Locale.GetLocale(configuration.Locale);
             addressGenerator = new AddressGenerator(locale);
         }
 
-        public List<FakeUserDataModel> GenerateUsersData(int amount = 20)
+        public List<FakeUserDataModel> GenerateUsersData()
         {
-            Randomizer.Seed = new Random(seed);
-            var faker = createFaker();
-            return faker.Generate(amount);
+            Randomizer.Seed = new Random(configuration.Seed - configuration.Page);
+            var faker = createFaker(configuration.Page * 10);
+            return faker.Generate(configuration.PageSize);
         }
 
         private Faker<FakeUserDataModel> createFaker(int startId = 0)

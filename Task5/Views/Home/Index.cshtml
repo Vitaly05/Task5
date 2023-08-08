@@ -1,6 +1,10 @@
 ﻿@model List<FakeUserDataModel>
 
-<div class="uk-background-muted uk-border-rounded mt-4 d-flex flex-column gap-3 align-items-center p-4">
+<div class="uk-background-secondary uk-border-rounded position-fixed m-0 m-sm-3 bottom-0 end-0 p-2 display-none" id="to-top-js">
+    <a href="#" class="" uk-totop></a>
+</div>
+
+<div class="uk-background-muted uk-border-rounded mt-4 d-flex flex-column gap-3 align-items-center p-4" id="top-panel-js">
     <div uk-form-custom="target: > * > span:first-child">
         <select aria-label="Custom controls" id="locale-js" class="generator-configuration-js">
             <option value="en_US" selected>United States</option>
