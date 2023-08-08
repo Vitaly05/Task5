@@ -1,0 +1,12 @@
+﻿@model List<FakeUserDataModel>
+
+@foreach (var userData in Model) 
+{
+    <tr>
+        <td>@userData.Id</td>
+        <td class="uk-text-truncate" uk-tooltip="@userData.RandomId">@userData.RandomId</td>
+        <td>@userData.FullName</td>
+        <td>@userData.Address</td>
+        <td>@userData.PhoneNumber</td>
+    </tr>   
+}

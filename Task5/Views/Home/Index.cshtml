@@ -1,4 +1,45 @@
-﻿<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿@model List<FakeUserDataModel>
+
+<div class="uk-background-muted uk-border-rounded mt-4 d-flex flex-column gap-3 align-items-center p-4">
+    <div uk-form-custom="target: > * > span:first-child">
+        <select aria-label="Custom controls" id="locale-js">
+            <option value="en_US" selected>United States</option>
+            <option value="ru">Russian</option>
+            <option value="pl">Polish</option>
+        </select>
+        <button class="uk-button uk-button-default" type="button" tabindex="-1">
+            <span></span>
+            <span uk-icon="icon: chevron-down"></span>
+        </button>
+    </div>
+
+    <div>
+        <input type="text" class="uk-input" placeholder="Seed" id="seed-js" value="0" />
+    </div>
+
+    <button class="uk-button" id="generate-js-button">Generate</button>
 </div>
+
+<div class="overflow-auto">
+    <table class="uk-table uk-table-striped uk-table-middle">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Random id</th>
+                <th>Full name</th>
+                <th>Address</th>
+                <th>Phone number</th>
+            </tr>
+        </thead>
+        <tbody id="users-table-body-js">
+            @{
+                await Html.RenderPartialAsync("_UsersData", Model);
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts 
+{
+    <script src="~/js/site.js"></script>
+}
