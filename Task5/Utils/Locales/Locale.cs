@@ -14,6 +14,8 @@ namespace Task5.Utils.Locales
 
         public abstract string ApartmentNumber { get; }
 
+        public abstract Characters Characters { get; }
+
         public static Locale GetLocale(string locale) =>
             locale switch
             {

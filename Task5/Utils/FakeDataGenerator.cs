@@ -12,18 +12,26 @@ namespace Task5.Utils
 
         private readonly AddressGenerator addressGenerator;
 
-        public FakeDataGenerator(GeneratorConfigurationModel generatorConfigurationModel)
+        private readonly InputMistakesGenerator inputErrorsGenerator;
+
+        public FakeDataGenerator(GeneratorConfigurationModel model)
         {
-            configuration = generatorConfigurationModel;
+            configuration = model;
             locale = Locale.GetLocale(configuration.Locale);
             addressGenerator = new AddressGenerator(locale);
+            inputErrorsGenerator = new InputMistakesGenerator(model);
+            Randomizer.Seed = new Random(configuration.Seed - configuration.Page);
         }
 
         public List<FakeUserDataModel> GenerateUsersData()
         {
-            Randomizer.Seed = new Random(configuration.Seed - configuration.Page);
             var faker = createFaker(configuration.Page * 10);
-            return faker.Generate(configuration.PageSize);
+            var fakeDatas = faker.Generate(configuration.PageSize);
+
+            foreach (var fakeData in  fakeDatas)
+                inputErrorsGenerator.MakeErrors(fakeData);
+            
+            return fakeDatas;
         }
 
         private Faker<FakeUserDataModel> createFaker(int startId = 0)

@@ -13,5 +13,7 @@ namespace Task5.Utils.Locales
         public override string House => "д.";
 
         public override string ApartmentNumber => "кв.";
+
+        public override Characters Characters => new Characters() { StartCharacter = 'а', EndCharacter = 'я' };
     }
 }

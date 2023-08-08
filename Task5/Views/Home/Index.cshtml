@@ -17,9 +17,14 @@
         </button>
     </div>
 
+    <div class="d-flex flex-column align-items-center uk-width-medium">
+        <input class="uk-input uk-width-small generator-configuration-js" id="mistakes-count-input-js" type="text" value="0" />
+        <input class="uk-range generator-configuration-js" id="mistakes-count-range-js" type="range" value="0" min="0" max="10" step="0.25" aria-label="Range" />
+    </div>
+
     <div class="uk-inline">
         <a href="" class="uk-form-icon uk-form-icon-flip" uk-tooltip="Random seed" id="random-seed-js"><i class="fa-solid fa-shuffle"></i></a>
-        <input type="text" class="uk-input generator-configuration-js" placeholder="Seed" id="seed-js" value="0" aria-label="Clickable icon" />
+        <input type="text" class="uk-input uk-width-small generator-configuration-js" placeholder="Seed" id="seed-js" value="0" aria-label="Clickable icon" />
     </div>
 </div>
 

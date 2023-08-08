@@ -1,9 +1,20 @@
-﻿$('.generator-configuration-js').change(updateTableData)
+﻿$('.generator-configuration-js').on('input', updateTableData)
 
 $('#random-seed-js').click(e => {
     e.preventDefault()
     $('#seed-js').val(getRandomInt(2_147_483_648))
     updateTableData()
+})
+
+$('#mistakes-count-range-js').on('input', function () {
+    $('#mistakes-count-input-js').val($(this).val())
+})
+
+$('#mistakes-count-input-js').on('input', function () {
+    if (isNaN(parseInt($(this).val()))) {
+        $(this).val(0)
+    }
+    $('#mistakes-count-range-js').val($(this).val())
 })
 
 var tableUpdateExecuted = true
@@ -38,7 +49,8 @@ function getGeneratorConfiguration(page, pageSize) {
         locale: $('#locale-js').val(),
         seed: $('#seed-js').val(),
         page: page,
-        pageSize: pageSize
+        pageSize: pageSize,
+        mistakesCount: $('#mistakes-count-input-js').val()
     }
 }
 
