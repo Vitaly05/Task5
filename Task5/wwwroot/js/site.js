@@ -1,5 +1,10 @@
-﻿//$('#generate-js-button').click(replaceTableData)
-$('.generator-configuration-js').change(replaceTableData)
+﻿$('.generator-configuration-js').change(replaceTableData)
+
+$('#random-seed-js').click(e => {
+    e.preventDefault()
+    $('#seed-js').val(getRandomInt(2_147_483_648))
+    replaceTableData()
+})
 
 async function replaceTableData() {
     $.post('/getUsersData', getGeneratorConfiguration(), function (data) { 
@@ -13,3 +18,7 @@ function getGeneratorConfiguration() {
         seed: $('#seed-js').val()
     }
 }
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
