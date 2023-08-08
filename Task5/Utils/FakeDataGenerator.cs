@@ -19,7 +19,7 @@ namespace Task5.Utils
             addressGenerator = new AddressGenerator(locale);
         }
 
-        public List<FakeUserDataModel> GenerateUsersData(int amount = 10)
+        public List<FakeUserDataModel> GenerateUsersData(int amount = 20)
         {
             Randomizer.Seed = new Random(seed);
             var faker = createFaker();

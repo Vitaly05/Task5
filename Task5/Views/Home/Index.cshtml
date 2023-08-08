@@ -2,7 +2,7 @@
 
 <div class="uk-background-muted uk-border-rounded mt-4 d-flex flex-column gap-3 align-items-center p-4">
     <div uk-form-custom="target: > * > span:first-child">
-        <select aria-label="Custom controls" id="locale-js">
+        <select aria-label="Custom controls" id="locale-js" class="generator-configuration-js">
             <option value="en_US" selected>United States</option>
             <option value="ru">Russian</option>
             <option value="pl">Polish</option>
@@ -14,10 +14,8 @@
     </div>
 
     <div>
-        <input type="text" class="uk-input" placeholder="Seed" id="seed-js" value="0" />
+        <input type="text" class="uk-input generator-configuration-js" placeholder="Seed" id="seed-js" value="0" />
     </div>
-
-    <button class="uk-button" id="generate-js-button">Generate</button>
 </div>
 
 <div class="overflow-auto">

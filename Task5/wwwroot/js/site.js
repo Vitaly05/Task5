@@ -1,4 +1,5 @@
-﻿$('#generate-js-button').click(replaceTableData)
+﻿//$('#generate-js-button').click(replaceTableData)
+$('.generator-configuration-js').change(replaceTableData)
 
 async function replaceTableData() {
     $.post('/getUsersData', getGeneratorConfiguration(), function (data) { 
