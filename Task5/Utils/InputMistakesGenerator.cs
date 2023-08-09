@@ -96,7 +96,9 @@ namespace Task5.Utils
         private string addCharacter(string input)
         {
             int index = faker.Random.Int(0, input.Length - 1);
-            char randomChar = faker.Random.Char(locale.Characters.StartCharacter, locale.Characters.EndCharacter);
+            char randomChar = faker.PickRandom(
+                faker.Random.Char(locale.Characters.StartCharacter, locale.Characters.EndCharacter),
+                faker.Random.Char('0', '9'));
             return input.Insert(index, randomChar.ToString());
         }
 
