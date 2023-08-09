@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using System.Reflection;
 using Task5.Models;
 using Task5.Utils.Locales;
 
@@ -14,8 +15,6 @@ namespace Task5.Utils
 
         private readonly Faker faker;
 
-        private List<Action<FakeUserDataModel>> propertiesMethods;
-
         private List<Func<string, string>> errorsMethods;
 
         private Dictionary<string, int> oldLenghts;
@@ -26,33 +25,17 @@ namespace Task5.Utils
             lastMistakeChance = model.MistakesCount - MistakesCount;
             locale = Locale.GetLocale(model.Locale);
             faker = new Faker();
-            setMethods();
+            setErrorsMethods();
         }
 
         public FakeUserDataModel MakeErrors(FakeUserDataModel model)
         {
             setOldLengths(model);
             for (int i = 0; i < MistakesCount; i++)
-                faker.PickRandom(propertiesMethods).Invoke(model);
+                makeError(model, pickRandomProperty(model));
             if (faker.Random.Double() < lastMistakeChance)
-                faker.PickRandom(propertiesMethods).Invoke(model);
+                makeError(model, pickRandomProperty(model));
             return model;
-        }
-
-        private void setMethods()
-        {
-            setropertiesMethods();
-            setErrorsMethods();
-        }
-
-        private void setropertiesMethods()
-        {
-            propertiesMethods = new()
-            {
-                (m) => makeErrorInFullName(m),
-                (m) => makeErrorInAddress(m),
-                (m) => makeErrorInPhoneNumber(m)
-            };
         }
 
         private void setErrorsMethods()
@@ -75,22 +58,15 @@ namespace Task5.Utils
             };
         }
 
-        private void makeErrorInFullName(FakeUserDataModel model)
-        {
-            float[] weights = getWeights(oldLenghts[nameof(model.FullName)], model.FullName.Length);
-            model.FullName = faker.Random.WeightedRandom(errorsMethods.ToArray(), weights).Invoke(model.FullName);
-        }
+        private PropertyInfo pickRandomProperty(FakeUserDataModel model) =>
+            faker.PickRandom(model.GetType().GetProperty(nameof(model.FullName)),
+                model.GetType().GetProperty(nameof(model.Address)),
+                model.GetType().GetProperty(nameof(model.PhoneNumber)));
 
-        private void makeErrorInAddress(FakeUserDataModel model)
+        private void makeError(FakeUserDataModel model, PropertyInfo property)
         {
-            float[] weights = getWeights(oldLenghts[nameof(model.Address)], model.Address.Length);
-            model.Address = faker.Random.WeightedRandom(errorsMethods.ToArray(), weights).Invoke(model.Address);
-        }
-
-        private void makeErrorInPhoneNumber(FakeUserDataModel model)
-        {
-            float[] weights = getWeights(oldLenghts[nameof(model.PhoneNumber)], model.PhoneNumber.Length);
-            model.PhoneNumber = faker.Random.WeightedRandom(errorsMethods.ToArray(), weights).Invoke(model.PhoneNumber);
+            float[] weights = getWeights(oldLenghts[property.Name], ((string)property.GetValue(model)).Length);
+            property.SetValue(model, faker.Random.WeightedRandom(errorsMethods.ToArray(), weights).Invoke((string)property.GetValue(model)));
         }
 
         private string addCharacter(string input)
