@@ -1,19 +1,19 @@
 ﻿const MAX_SEED_VALUE = 2_147_483_646
 
-$(document).ready(function() {
-    updateTableData()
+$(document).ready(async function() {
+    await updateTableData()
 
-    $('.generator-configuration-js').on('input', function() {
+    $('.generator-configuration-js').on('change', async function() {
         validateFields()
-        updateTableData()
+        await updateTableData()
     })
 
     $('#get-csv-js').click(getCsvFile)
     
-    $('#random-seed-js').click(e => {
+    $('#random-seed-js').click(async e => {
         e.preventDefault()
         $('#seed-js').val(getRandomInt(MAX_SEED_VALUE))
-        updateTableData()
+        await updateTableData()
     })
     
     $('#mistakes-count-range-js').on('input', function() {
