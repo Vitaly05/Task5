@@ -9,8 +9,7 @@ namespace Task5.Controllers
     {
         public IActionResult Index()
         {
-            var fakeData = new FakeDataGenerator(new GeneratorConfigurationModel()).GenerateUsersData();
-            return View(fakeData);
+            return View();
         }
 
         [HttpPost("getUsersData")]

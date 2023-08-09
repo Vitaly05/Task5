@@ -1,6 +1,4 @@
-﻿@model List<FakeUserDataModel>
-
-<div class="uk-background-secondary uk-border-rounded position-fixed m-0 m-sm-3 bottom-0 end-0 p-2 display-none" id="to-top-js">
+﻿<div class="uk-background-secondary uk-border-rounded position-fixed m-0 m-sm-3 bottom-0 end-0 p-2 display-none" id="to-top-js">
     <a href="#" class="" uk-totop></a>
 </div>
 
@@ -26,6 +24,10 @@
         <a href="" class="uk-form-icon uk-form-icon-flip" uk-tooltip="Random seed" id="random-seed-js"><i class="fa-solid fa-shuffle"></i></a>
         <input type="text" class="uk-input uk-width-small generator-configuration-js" placeholder="Seed" id="seed-js" value="0" aria-label="Clickable icon" />
     </div>
+
+    <div class="">
+        <button class="uk-button" id="get-csv-js">Get CSV file</button>
+    </div>
 </div>
 
 <div class="overflow-auto">
@@ -39,11 +41,7 @@
                 <th>Phone number</th>
             </tr>
         </thead>
-        <tbody id="users-table-body-js">
-            @{
-                await Html.RenderPartialAsync("_UsersData", Model);
-            }
-        </tbody>
+        <tbody id="users-table-body-js"></tbody>
     </table>
 </div>
 

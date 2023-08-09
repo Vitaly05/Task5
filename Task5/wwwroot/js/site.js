@@ -1,10 +1,14 @@
 ﻿const MAX_SEED_VALUE = 2_147_483_646
 
 $(document).ready(function() {
+    updateTableData()
+
     $('.generator-configuration-js').on('input', function() {
         validateFields()
         updateTableData()
     })
+
+    $('#get-csv-js').click(getCsvFile)
     
     $('#random-seed-js').click(e => {
         e.preventDefault()
@@ -36,38 +40,53 @@ function getValidValue(input, min, max, allowDot) {
 
 var tableUpdateExecuted = true
 
-var nextPage = 2
+var currentPage = 0
 
 $(window).scroll(async () => {
     const userScroll = $(window).scrollTop()
     switchToTopButton(userScroll)
     if (userScroll + $(window).height() >= $(document).height() - 1 && tableUpdateExecuted) {
         tableUpdateExecuted = false
-        await appendTableData()
+        appendTableData()
     }
 })
 
+async function updateTableData() {
+    await resetTableData()
+    await appendTableData()
+}
+
 async function appendTableData() {
-    $.post('/getUsersData', getGeneratorConfiguration(page = nextPage++, pageSize = 10), function (data) { 
+    await $.post('/getUsersData', getGeneratorConfiguration(currentPage + 1), function (data) { 
         $('#users-table-body-js').append(data)
+        currentPage++
         tableUpdateExecuted = true
     })
 }
 
-async function updateTableData() {
-    nextPage = 2
-    $.post('/getUsersData', getGeneratorConfiguration(), function (data) {
+async function resetTableData() {
+    currentPage = 0
+    await $.post('/getUsersData', getGeneratorConfiguration(), function (data) {
         $('#users-table-body-js').html(data)
         tableUpdateExecuted = true
     })
 }
 
-function getGeneratorConfiguration(page, pageSize) {
+function getCsvFile() {
+    $.post('/getCsvFile', getGeneratorConfiguration(currentPage), function(data) {
+        var blob = new Blob([data])
+        var link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = "FakeData.csv"
+        link.click()
+    })
+}
+
+function getGeneratorConfiguration(page) {
     return {
         locale: $('#locale-js').val(),
         seed: $('#seed-js').val(),
         page: page,
-        pageSize: pageSize,
         mistakesCount: $('#mistakes-count-input-js').val()
     }
 }

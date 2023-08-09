@@ -10,7 +10,7 @@ namespace Task5.Models
 
         public int Page { get; set; } = 0;
 
-        public int PageSize { get; set; } = 20;
+        public int PageSize { get; set; } = 10;
 
         public double MistakesCount { get; set; } = 0;
     }

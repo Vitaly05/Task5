@@ -20,7 +20,7 @@ namespace Task5.Utils
             locale = Locale.GetLocale(configuration.Locale);
             addressGenerator = new AddressGenerator(locale);
             inputErrorsGenerator = new InputMistakesGenerator(model);
-            Randomizer.Seed = new Random(configuration.Seed - configuration.Page);
+            Randomizer.Seed = new Random(configuration.Seed + configuration.Page);
         }
 
         public List<FakeUserDataModel> GenerateUsersData()
