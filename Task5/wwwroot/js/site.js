@@ -1,23 +1,41 @@
-﻿$('.generator-configuration-js').on('input', updateTableData)
+﻿const MAX_SEED_VALUE = 2_147_483_646
 
-$('#random-seed-js').click(e => {
-    e.preventDefault()
-    $('#seed-js').val(getRandomInt(2_147_483_648))
-    updateTableData()
+$(document).ready(function() {
+    $('.generator-configuration-js').on('input', function() {
+        validateFields()
+        updateTableData()
+    })
+    
+    $('#random-seed-js').click(e => {
+        e.preventDefault()
+        $('#seed-js').val(getRandomInt(MAX_SEED_VALUE))
+        updateTableData()
+    })
+    
+    $('#mistakes-count-range-js').on('input', function() {
+        $('#mistakes-count-input-js').val($(this).val())
+    })
+    
+    $('#mistakes-count-input-js').on('input', function() {
+        $('#mistakes-count-range-js').val($(this).val())
+    })
 })
 
-$('#mistakes-count-range-js').on('input', function () {
-    $('#mistakes-count-input-js').val($(this).val())
-})
+function validateFields() {
+    $('#mistakes-count-input-js').val(getValidValue($('#mistakes-count-input-js').val(), 0, 1000, true))
+    $('#seed-js').val(getValidValue($('#seed-js').val(), 0, MAX_SEED_VALUE, false))
+}
 
-$('#mistakes-count-input-js').on('input', function () {
-    if (isNaN(parseInt($(this).val()))) {
-        $(this).val(0)
-    }
-    $('#mistakes-count-range-js').val($(this).val())
-})
+function getValidValue(input, min, max, allowDot) {
+    let value = allowDot ? input.replace(/[^\d\.-]/g, '') : input.replace(/[^\d-]/g, '')
+    if (value < min || value > max)
+        value = Math.min(Math.max(value, min), max)
+    if (isNaN(value)) value = 0
+    return value
+}
 
 var tableUpdateExecuted = true
+
 var nextPage = 2
 
 $(window).scroll(async () => {
